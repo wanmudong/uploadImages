@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.wanmudong.images.mapper.ImagesMapper">
+
+    <insert id="saveImages">
+        insert into images (username,addr,creat_date) values (#{image.username},#{image.addr},#{image.creatDate})
+    </insert>
+    <select id="getImages" resultType="top.wanmudong.images.entity.Images">
+        select * from images where
+        <if test="username !=null">
+             username like concat('%',#{username},'%') and
+        </if>
+        (
+          1=1
+        <if test="start_date !=null  and start_date !=''">
+            and create_date &gt;=  #{start_date}
+        </if>
+        <if test="end_date !=null  and end_date !=''">
+            and create_date &lt;= #{end_date}
+        </if>
+        )
+        order by create_date desc
+    </select>
+</mapper>
